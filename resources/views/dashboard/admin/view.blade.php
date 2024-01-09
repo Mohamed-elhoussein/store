@@ -1,7 +1,8 @@
 @extends('dashboard.style.main')
 
 @section('content')
-ssssss
+<a class='btn btn-primary' href="{{ route('admin.create') }}">Add Admin</a>
+
 @endsection
 
 

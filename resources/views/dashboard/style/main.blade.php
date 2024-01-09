@@ -1,3 +1,3 @@
-@include('admin.style.header')
-@include('admin.style.sidebar')
-@include('admin.style.footer')
+@include('dashboard.style.header')
+@include('dashboard.style.sidebar')
+@include('dashboard.style.footer')
