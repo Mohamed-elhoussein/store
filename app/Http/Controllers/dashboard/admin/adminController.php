@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dashboard\admin;
 use App\Models\admin;
 use App\Models\admin_type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,6 +32,7 @@ class adminController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try{
             $admin=$request->except(["prive","permission"]);
             $admin_user=admin::create($admin);
@@ -39,9 +41,10 @@ class adminController extends Controller
             $admin_type=$request->only(["prive","permission"]);
 
             admin_type::data_insert($admin_id,$admin_type);
+            DB::commit();
             return redirect()->route('admin.index');
         }catch(EXCEPTION $e){
-            return abort(401);
+            DB::rollback();
         }
 
     }
