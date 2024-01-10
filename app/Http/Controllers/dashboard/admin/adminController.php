@@ -37,9 +37,8 @@ class adminController extends Controller
             $admin=$request->except(["prive","permission"]);
             $admin_user=admin::create($admin);
             $admin_id=$admin_user["id"];
-
+            
             $admin_type=$request->only(["prive","permission"]);
-
             admin_type::data_insert($admin_id,$admin_type);
             DB::commit();
             return redirect()->route('admin.index');
