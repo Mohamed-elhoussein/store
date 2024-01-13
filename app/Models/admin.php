@@ -16,7 +16,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $fillable=["name","email","password","gender"];
+    protected $hidden=['created_at',"updated_at","password"];
 
 
     public function setPasswordAttribute($password){
@@ -29,8 +31,8 @@ class admin extends Authenticatable
 
     public static function permission_type(){
         $admin_id=Auth::guard('admin')->user()->id;
-        $admin_permissions= admin::findOrfail($admin_id)->permission->permission;
-        return explode("+",$admin_permissions);
+        return $admin_permissions= admin::findOrfail($admin_id)->permission->permission;
+
     }
 
 
@@ -40,7 +42,7 @@ class admin extends Authenticatable
         $role=$this->permission_type();
         foreach($role as $role){
         return   $role==$array_permission?"true":"false";
-// Gate::
+
         }
     }
 

@@ -16,7 +16,7 @@ use App\Http\Controllers\dashboard\admin\adminController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin.index');
 });
 
 Route::resource("admin",adminController::class)->middleware('auth_admin');

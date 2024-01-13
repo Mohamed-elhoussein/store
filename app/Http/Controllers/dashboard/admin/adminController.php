@@ -19,9 +19,9 @@ class adminController extends Controller
     public function index()
     {
         $check_permission=Gate::forUser(Auth::guard('admin')->user())->allows('view_user');
-
+        $data=admin::with("permission")->get();
         if($check_permission){
-            return view('dashboard.admin.view');
+            return view('dashboard.admin.view',compact('data'));
         }else{
             abort(403);
         }
@@ -33,9 +33,8 @@ class adminController extends Controller
     public function create()
     {
 
-            return admin::permission_type();
 
-        // return view('dashboard.admin.add');
+        return view('dashboard.admin.add');
     }
 
     /**
@@ -59,20 +58,14 @@ class adminController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+      $admin=admin::where('id', $id)->with("permission")->get()[0];
+      return view('dashboard.admin.edite',compact('admin'));
     }
 
     /**
@@ -80,7 +73,12 @@ class adminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $admin=$request->except("prive","permission","_token","_method");
+        admin::where("id",$id)->update($admin);
+
+        admin_type::data_update($request,$id);
+        return redirect()->route('admin.index')->with("ms_admin","success update admin");
+
     }
 
     /**

@@ -9,7 +9,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class admin_type extends Model
 {
     use HasFactory;
+
+    protected $hidden=[
+        'created_at','updated_at'
+    ];
     protected $fillable=["admin_id","prive","permission"];
+
+    public function getPermissionAttribute($value){
+        return explode("+",$value);
+    }
+
+    public function setPermissionAttribute($value){
+        return $this->attribute["permission"]=implode("+",$value);
+    }
 
     public function admin(){
         return $this->belongsTo(admin::class,"id","admin_id");
@@ -24,4 +36,9 @@ class admin_type extends Model
         ]);
     }
 
+    public static function data_update($req,$id){
+        $admin_type=$req->only("prive","permission");
+        $admin_type["permission"]=implode("+",$admin_type["permission"]);
+        admin_type::where("admin_id",$id)->update($admin_type);
+    }
 }
