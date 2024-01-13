@@ -7,6 +7,8 @@ use App\Models\admin_type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class adminController extends Controller
@@ -16,7 +18,13 @@ class adminController extends Controller
      */
     public function index()
     {
-        return view('dashboard.admin.view');
+        $check_permission=Gate::forUser(Auth::guard('admin')->user())->allows('view_user');
+
+        if($check_permission){
+            return view('dashboard.admin.view');
+        }else{
+            abort(403);
+        }
     }
 
     /**
@@ -24,7 +32,10 @@ class adminController extends Controller
      */
     public function create()
     {
-        return view('dashboard.admin.add');
+
+            return admin::permission_type();
+
+        // return view('dashboard.admin.add');
     }
 
     /**
@@ -37,7 +48,7 @@ class adminController extends Controller
             $admin=$request->except(["prive","permission"]);
             $admin_user=admin::create($admin);
             $admin_id=$admin_user["id"];
-            
+
             $admin_type=$request->only(["prive","permission"]);
             admin_type::data_insert($admin_id,$admin_type);
             DB::commit();

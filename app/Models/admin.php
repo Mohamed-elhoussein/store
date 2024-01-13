@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use App\Models\admin_type;
+use Illuminate\Auth\Access\Gate;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class admin extends Model
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class admin extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
     protected $fillable=["name","email","password","gender"];
 
 
@@ -19,6 +25,23 @@ class admin extends Model
 
     public function permission(){
         return $this->hasOne(admin_type::class,"admin_id","id");
+    }
+
+    public static function permission_type(){
+        $admin_id=Auth::guard('admin')->user()->id;
+        $admin_permissions= admin::findOrfail($admin_id)->permission->permission;
+        return explode("+",$admin_permissions);
+    }
+
+
+
+
+    public function HasAbilty($array_permission){
+        $role=$this->permission_type();
+        foreach($role as $role){
+        return   $role==$array_permission?"true":"false";
+// Gate::
+        }
     }
 
 }

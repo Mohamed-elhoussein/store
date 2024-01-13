@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\admin;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +23,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+        foreach(config('permission')['permission'] as $key=> $val){
+            Gate::define($val,function($abilty)use($key){
+                return $abilty->HasAbilty($key);
+            });
+        }
+
+
+
+        }
     }
-}
+
+
