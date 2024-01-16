@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard\auth\loginontroller;
 use App\Http\Controllers\dashboard\admin\adminController;
+use App\Http\Controllers\dashboard\admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ Route::get('/', function () {
 
 Route::resource("admin",adminController::class)->middleware('auth_admin');
 
+
+Route::resource('product',ProductController::class);
 Route::controller(loginontroller::class)->middleware('guest:admin')->group(function(){
 Route::get("login","index")->name("dash/login");
 Route::post("login/check","login")->name("dash/login/check");

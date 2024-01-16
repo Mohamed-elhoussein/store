@@ -20,6 +20,7 @@
 <script src="{{asset('admin/js/off-canvas.js')}}"></script>
 <script src="{{asset('admin/js/hoverable-collapse.js')}}"></script>
 <script src="{{asset('admin/js/misc.js')}}"></script>
+<script src="{{asset('admin/js/file-upload.js')}}"></script>
 <!-- endinject -->
 <!-- Custom js for this page -->
 <!-- End custom js for this page -->

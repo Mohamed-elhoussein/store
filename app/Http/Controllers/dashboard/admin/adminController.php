@@ -77,7 +77,7 @@ class adminController extends Controller
         admin::where("id",$id)->update($admin);
 
         admin_type::data_update($request,$id);
-        return redirect()->route('admin.index')->with("ms_admin","success update admin");
+        return redirect()->route('admin.index')->with("ms_admin","success update User");
 
     }
 
@@ -86,6 +86,8 @@ class adminController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        admin::findOrfail($id)->delete();
+        return redirect()->route('admin.index')->with("ms_admin","success Delete User");
+
     }
 }

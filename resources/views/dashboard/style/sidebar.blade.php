@@ -23,12 +23,19 @@
 </a>
 </li>
 
+<li class="nav-item">
+<a class="nav-link" href="{{ route('admin.index') }}">
+<span class="menu-title">Admins</span>
+<i class="mdi mdi-contacts menu-icon"></i>
+</a>
+</li>
+
 
 
 <li class="nav-item">
-<a class="nav-link" href="../../pages/icons/mdi.html">
-<span class="menu-title">Icons</span>
-<i class="mdi mdi-contacts menu-icon"></i>
+<a class="nav-link" href="{{ route('product.index') }}">
+<span class="menu-title">Products</span>
+<i class="mdi mdi-home menu-icon"></i>
 </a>
 </li>
 

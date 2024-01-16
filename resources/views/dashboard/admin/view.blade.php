@@ -15,7 +15,7 @@
 
 <table class="table table-dark">
 <thead>
-<tr>
+<tr style="text-align:center;">
 <th> # </th>
 <th>  User Name </th>
 <th> Email </th>
@@ -34,11 +34,8 @@
 <td> {{ $row->permission->prive==300?"owner":"" }}{{ $row->permission->prive==200?"admin":"" }}{{ $row->permission->prive==100?"auppervisor":"" }}</td>
 <td>
 <a href="{{ route('admin.edit',$row->id) }}" class='btn btn-primary'>Edite</a>
-<form action="{{ route('admin.destroy',$row->id) }}" method="post">
-@csrf
-@method('DELETE')
-<a type="submit" class='btn btn-danger'>Delete</a>
-</form>
+@include('dashboard.style.modal')
+
 </td>
 </tr>
 
