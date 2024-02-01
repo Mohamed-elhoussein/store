@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
+        
         foreach(config('permission')['permission'] as $key=> $val){
             Gate::define($val,function($abilty)use($key){
                 return $abilty->HasAbilty($key);

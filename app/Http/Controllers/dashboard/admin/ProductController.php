@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Http\Traits\sameData;
+use App\Http\Traits\updateProduct;
 
 class ProductController extends Controller
 {
+    use sameData,updateProduct;
     /**
      * Display a listing of the resource.
      */
@@ -55,7 +58,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data=product::findOrfail($id);
+        return view('dashboard.product.edite',compact('data'));
     }
 
     /**
@@ -71,7 +75,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if(!$request->hasFile("img")){
+            return  $this->sameData($request,$id);
+        }else{
+             
+            return  $this->updateProduct($request,$id);
+        }
+
     }
 
     /**
@@ -79,6 +89,10 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $img=image::where("product_id",$id)->get();
+        image::deleteImage($img);
+        product::findOrfail($id)->delete();
+        return redirect()->route('product.index')->with('ms_admin',"the product has been deleted successfly");
+
     }
 }

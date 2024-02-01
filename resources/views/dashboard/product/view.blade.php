@@ -41,12 +41,20 @@
 <td> {{ $row->cteogry }} </td>
 {{-- image --}}
 <td>
-@foreach ($row->images as $row)
-<img src="{{ asset('storage/images/'.$row->image) }}">
+@foreach ($row->images as $img)
+<img src="{{ asset('storage/images/'.$img->image) }}">
 @endforeach
 </td>
 {{-- image --}}
-<td><a href="" class='btn btn-primary'>Edite</a></td>
+<td>
+<a href="{{ route('product.show',$row->id) }}" class='btn btn-primary'>Edite</a>
+<form action="{{ route('product.destroy',$row->id) }}" method="post" style="display: contents;">
+@csrf
+@method('DELETE')
+<input type="submit"  class="btn btn-danger" value="Delete">
+</form>
+</td>
+
 </tr>
 @empty
 

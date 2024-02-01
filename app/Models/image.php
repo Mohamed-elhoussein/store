@@ -27,4 +27,11 @@ class image extends Model
 
         }
     }
+
+    public static function deleteImage($img){
+        foreach($img as $img){
+            $file=$img["image"];
+            unlink(storage_path('app/public/images/'.$file));
+        }
+    }
 }
